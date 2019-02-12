@@ -63,21 +63,15 @@ div.assignment.card
 					text = "View Feedback"
 				else
 					s = Submission.new
-					text = "Submit Link"
+					text = "Submit"
 				end
 
-			div.submit-assignment-button
-				= text
-				div.submit-assignment-form
-					- if text != "View Feedback"
-						h6.field-title
-							= text
-						= form_for [assignment_card, s] do |f|
-							= f.text_field :link, required: true
-							- if text == "Submit Link"
-								= hidden_field_tag 'student_id', current_student.id
-						  	= f.submit "Submit"
-					- else
+			- if text != "View Feedback"
+				a href="#{assignment_card.submission_link}" target="_blank" Submit
+			- else
+				div.submit-assignment-button
+					= text
+					div.submit-assignment-form
 						h6.field-title Feedback
 						p
 							= submission.comment
@@ -87,12 +81,14 @@ div.assignment.card
 	div.modal-form.edit-assignment
 		div.close &times;
 		h3
-			= "Edit Homework #{assignment_card.week.week_number}"
-		= form_for [assignment_card.week, assignment_card] do |f|
+			= "Edit #{assignment_card.title}"
+		= form_for [assignment_card] do |f|
 			h6.field-title title
 			= f.text_field :title, :required => true
 			h6.field-title link
 			= f.text_field :link, :required => true
+			h6.field-title submission link
+			= f.text_field :submission_link, :required => true
 			h6.field-title description
 			= f.text_area :description, rows: "3"
 			div
@@ -102,8 +98,5 @@ div.assignment.card
 				div
 					h6.field-title points
 					= f.number_field :points
-				div
-					h6.field-title week
-					= f.select :week_number, @week_numbers, selected: assignment_card.week.week_number
 			br
 		  	= f.submit

@@ -7,31 +7,22 @@ class AssignmentsController < ApplicationController
 	end
 
 	def create
-		semester = Semester.find(params[:semester_id])
 		assignment = Assignment.new (assignment_params)
-		if assignment.save
+		assignment.semester = Semester.find_by(active: true)
+		if assignment.save!
 			flash[:notice] = "New assignment created!"
-			redirect_to semester_assignments_path semester_id: week.semester_id
+			redirect_to semester_assignments_path semester_id: assignment.semester_id
 		else
-			puts week.errors.full_messages.to_sentence
-			flash[:error] = week.errors.full_messages.to_sentence
-			redirect_to new_week_assignment_path, week_id: week.id
+			puts assignment.errors.full_messages.to_sentence
+			flash[:error] = assignment.errors.full_messages.to_sentence
+			redirect_to '/'
 		end
 	end
 
 	def update
 		assignment = Assignment.find(params[:id])
-		semester = Week.find(params[:week_id]).semester
-
-		week = Week.where({
-			semester_id: semester.id,
-			week_number: params[:assignment][:week_number]
-		})[0]
 		assignment.update! assignment_params
-		assignment.week = week
-
-		assignment.save
-
+		semester = Semester.find_by active: true
 		flash[:notice] = "Changes saved"
 		redirect_to semester_assignments_path semester_id: semester.id
 	end
@@ -44,6 +35,6 @@ class AssignmentsController < ApplicationController
 
 	private
 	def assignment_params
-		params.require(:assignment).permit(:link, :title, :due_date, :points, :description, :semester_id)
+		params.require(:assignment).permit(:link, :submission_link, :title, :due_date, :points, :description, :semester_id)
 	end
 end

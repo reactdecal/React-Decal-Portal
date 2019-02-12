@@ -12,11 +12,13 @@ main
 		div.modal-form.new-assignment
 			div.close &times;
 			h3 New Assignment
-			= form_for [@semester, Assignment.new] do |f|
+			= form_for [Assignment.new] do |f|
 				h6.field-title title
 				= f.text_field :title, :required => true
 				h6.field-title link
 				= f.text_field :link, :required => true
+				h6.field-title submission link
+				= f.text_field :submission_link, :required => true
 				h6.field-title description
 				= f.text_area :description, rows: "3"
 				div
@@ -26,8 +28,5 @@ main
 					div
 						h6.field-title points
 						= f.number_field :points
-					div
-						h6.field-title week
-						= f.select :week_number, @week_numbers
 				br
 			  	= f.submit 

@@ -10,7 +10,7 @@ main.dashboard
 			 	- if @assignment.nil?
 			 		h3.info-title = "No Assignments Yet"
 				- else
-					h3.info-title = "Homework " + @assignment.week.week_number.to_s
+					h3.info-title = @assignment.title
 					h6.caption = @assignment.title.to_s
 			- if !@assignment.nil?
 				= link_to "View Assignment", @assignment.link, target: "_blank", class: "button blue"

@@ -9,9 +9,6 @@ div.curriculum.week.card
 		= curriculum_week.description
 	div.week-resources
 		= render partial: "partials/resource", locals: {is_admin: is_admin}, collection: curriculum_week.resources.sort_by { |r| r.created_at }
-		- curriculum_week.assignments.each do |a|
-			div.resource.homework
-				a href="#{a.link}" target="_blank" Homework
 		- if is_admin
 			div.resource.add.add-resource + Resource
 	- if is_admin
