@@ -14,12 +14,12 @@ Rails.application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  config.action_mailer.default_url_options = {:host => 'reactdecal.org'}
+  config.action_mailer.default_url_options = {:host => 'portal.reactdecal.org'}
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
-    domain:               'reactdecal.org',
+    domain:               'portal.reactdecal.org',
     user_name:            'staff@reactdecal.org',
     password:             ENV["GMAIL_SMTP_PASSWORD"],
     authentication:       :login,
