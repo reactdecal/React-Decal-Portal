@@ -15,7 +15,7 @@ class Student < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-        :rememberable, :trackable, :validatable
+        :rememberable, :trackable, :validatable, :confirmable
   belongs_to :semester, optional: true
   validates :name, presence: true
   validate :valid_enrollment, :on => :create
@@ -27,10 +27,6 @@ class Student < ApplicationRecord
     semester = Semester.latest
     if semester.nil?
       errors.add(:base, "There are no available semesters")
-    else
-      if enrollment_code != semester.enrollment_code
-        errors.add(:base, "#{enrollment_code} is not a valid enrollment code")
-      end
     end
   end
 

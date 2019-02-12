@@ -11,6 +11,7 @@
 
 class Semester < ApplicationRecord
   has_many :weeks, :dependent => :restrict_with_error
+  has_many :assignments, :dependent => :restrict_with_error
   has_many :students, :dependent => :restrict_with_error
 
   def self.latest

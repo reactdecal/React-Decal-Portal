@@ -2,24 +2,13 @@ class AssignmentsController < ApplicationController
 	before_action :authenticate!
 
 	def index
-		@assignments = []
 		@semester = Semester.find(params[:semester_id])
-		@week_numbers = []
-
-		Week.where(semester_id: params[:semester_id]).each do |w|
-			@week_numbers.push(w.week_number)
-			@assignments.concat(Assignment.where(week_id: w.id))
-		end
+		@assignments = @semester.assignments
 	end
 
 	def create
 		semester = Semester.find(params[:semester_id])
-		week = Week.where({
-			semester_id: semester.id,
-			week_number: params[:assignment][:week_number]
-		})[0]
-		assignment = Assignment.create(assignment_params)
-		assignment.week_id = week.id
+		assignment = Assignment.new (assignment_params)
 		if assignment.save
 			flash[:notice] = "New assignment created!"
 			redirect_to semester_assignments_path semester_id: week.semester_id
@@ -55,6 +44,6 @@ class AssignmentsController < ApplicationController
 
 	private
 	def assignment_params
-		params.require(:assignment).permit(:link, :title, :due_date, :points, :description, :week_number)
+		params.require(:assignment).permit(:link, :title, :due_date, :points, :description, :semester_id)
 	end
 end

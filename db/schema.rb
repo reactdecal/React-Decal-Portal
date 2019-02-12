@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180426221331) do
+ActiveRecord::Schema.define(version: 20190212075510) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "admins", force: :cascade do |t|
     t.boolean "active", default: true
@@ -38,18 +41,19 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.datetime "due_date"
     t.text "description"
     t.string "link"
-    t.integer "week_id"
     t.integer "points"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["week_id"], name: "index_assignments_on_week_id"
+    t.bigint "semester_id"
+    t.string "submission_link"
+    t.index ["semester_id"], name: "index_assignments_on_semester_id"
   end
 
   create_table "attendances", force: :cascade do |t|
     t.integer "status"
     t.text "comment"
-    t.integer "week_id"
-    t.integer "student_id"
+    t.bigint "week_id"
+    t.bigint "student_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_attendances_on_student_id"
@@ -60,7 +64,7 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.string "link"
     t.string "title"
     t.text "description"
-    t.integer "week_id"
+    t.bigint "week_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["week_id"], name: "index_resources_on_week_id"
@@ -75,8 +79,8 @@ ActiveRecord::Schema.define(version: 20180426221331) do
   end
 
   create_table "student_submissions", force: :cascade do |t|
-    t.integer "student_id"
-    t.integer "submission_id"
+    t.bigint "student_id"
+    t.bigint "submission_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["student_id"], name: "index_student_submissions_on_student_id"
@@ -87,7 +91,7 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.string "name"
     t.string "email", default: "", null: false
     t.string "picture"
-    t.integer "semester_id"
+    t.bigint "semester_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "encrypted_password", default: "", null: false
@@ -99,7 +103,11 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.string "enrollment_code"
+    t.index ["confirmation_token"], name: "index_students_on_confirmation_token", unique: true
     t.index ["email"], name: "index_students_on_email", unique: true
     t.index ["reset_password_token"], name: "index_students_on_reset_password_token", unique: true
     t.index ["semester_id"], name: "index_students_on_semester_id"
@@ -110,8 +118,8 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.datetime "date"
     t.boolean "graded", default: false
     t.text "comment"
-    t.integer "assignment_id"
-    t.integer "admin_id"
+    t.bigint "assignment_id"
+    t.bigint "admin_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "link"
@@ -123,7 +131,7 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.date "date"
     t.string "title"
     t.text "description"
-    t.integer "semester_id"
+    t.bigint "semester_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "week_number"
@@ -131,4 +139,14 @@ ActiveRecord::Schema.define(version: 20180426221331) do
     t.index ["semester_id"], name: "index_weeks_on_semester_id"
   end
 
+  add_foreign_key "assignments", "semesters"
+  add_foreign_key "attendances", "students"
+  add_foreign_key "attendances", "weeks"
+  add_foreign_key "resources", "weeks"
+  add_foreign_key "student_submissions", "students"
+  add_foreign_key "student_submissions", "submissions"
+  add_foreign_key "students", "semesters"
+  add_foreign_key "submissions", "admins"
+  add_foreign_key "submissions", "assignments"
+  add_foreign_key "weeks", "semesters"
 end
