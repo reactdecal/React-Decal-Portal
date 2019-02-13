@@ -1,4 +1,6 @@
 nav
+	div#logo-pic
+		= image_tag("logo_stacked.svg")
 	- if not @semester
 		div#user-pic
 			= image_tag(@current_user.picture.present? ? @current_user.picture : "default_pro_pic.svg")
