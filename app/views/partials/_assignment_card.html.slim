@@ -66,7 +66,7 @@ div.assignment.card
 					text = "Submit"
 				end
 
-			- if text != "View Feedback" && !assignment_card.submission_link.empty?
+			- if text != "View Feedback" && !assignment_card.submission_link.blank?
 				a href="#{assignment_card.submission_link}" target="_blank" Submit
 			- else
 				div.submit-assignment-button
