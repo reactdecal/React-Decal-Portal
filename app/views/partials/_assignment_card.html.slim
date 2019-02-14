@@ -44,8 +44,8 @@ div.assignment.card
 			div.assignment-status
 				- if has_submission
 					= link_to "View Submission", submission.link, target: "_blank"
-				- else
-					= "No Submission"
+				/ - else
+				/ 	= "No Submission"
 
 	-if is_admin
 		= link_to "×", semester_assignment_path(semester_id: @semester.id, id: assignment_card.id), method: :delete, class: "delete"
