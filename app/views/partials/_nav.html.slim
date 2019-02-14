@@ -26,14 +26,16 @@ nav
 			= link_to "Curriculum", semester_path(id: @semester.id)
 		div.nav-item#assignments
 			= link_to "Assignments", semester_assignments_path(semester_id: @semester.id)
-		/ div.nav-item#attendance
-		/ 	= link_to "Attendance", semester_attendances_path(semester_id: @semester.id)
+		div.nav-item#attendance
+			= link_to "Attendance", semester_attendances_path(semester_id: @semester.id)
 		/ div.nav-item#roster
 		/ 	= link_to "Roster", semester_students_path(semester_id: @semester.id)
 		/ div.nav-item#staff
 		/ 	= link_to "Staff", admins_path
 		div.nav-item#resources
 			= link_to "Course Discourse", "https://talk.reactdecal.org"
+		div.nav-item#resources
+			= link_to "Lab Groups", "https://airtable.com/shrRlZSPmkzkXPtyT/tblGzFUnUpnQo49hq"
 		- if is_admin
 			div.nav-item#gradebook
 				= link_to "Gradebook", semester_submissions_path(semester_id: @semester.id)
@@ -48,3 +50,5 @@ nav
 			= "Auditor Account"
 		div.nav-item#login
 			= link_to 'Sign In', new_student_session_path, method: :get
+		div.nav-item#resources
+			= link_to "Lab Groups", "https://airtable.com/shrRlZSPmkzkXPtyT/tblGzFUnUpnQo49hq"

@@ -97,12 +97,12 @@ $(document).on('turbolinks:load', function() {
 			$(".overlay").fadeIn();
 		});
 
-		$(".request-absence").click(function() {
-			let modal = $(this).parent().parent().next();
-			modal.fadeIn();
-			modal.css("top", "50%");
-			$(".overlay").fadeIn();
-		});
+		// $(".request-absence").click(function() {
+		// 	let modal = $(this).parent().parent().next();
+		// 	modal.fadeIn();
+		// 	modal.css("top", "50%");
+		// 	$(".overlay").fadeIn();
+		// });
 
 		$(".week-assignment").hover(function() {
 			$(this).find(".submit-assignment-form").fadeIn();
