@@ -2,16 +2,21 @@
 <html>
   <head>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+    <style>
+      body { 
+        font-family: Lato;
+      }
+    </style>
   </head>
   <body>
+    <%= image_tag("logo_stacked.svg") %>
     <h1>New React Decal Assignment</h1>
     <p>
-      <%= @assignment.title%> has been posted. It's due on <%=@assignment.due_date.strftime("%m/%d")%>. Check it out
+      The <%= @assignment.title%> assignment has been posted. It's due on <%=@assignment.due_date.strftime("%m/%d")%>. Check it out
       on <a href="https://portal.reactdecal.org/semesters/1/assignments">the course portal!</a>
     </p>
-    <br/>
     <p>Have a great day!</p>
-    <br/>
     <p>Best,</p>
     <p>React Decal Staff</p>
   </body>
