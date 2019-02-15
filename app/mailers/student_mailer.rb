@@ -3,7 +3,7 @@ class StudentMailer < ApplicationMailer
 
     def new_assignment
         @assignment = params[:assignment]
-        @emails = params[:emails]
-        mail(cc: "staff@reactdecal.org", bcc: @emails, subject: 'React Decal Assignment Posted!')
+        @email = params[:email]
+        mail(to: @email, subject: 'React Decal Assignment Posted!')
     end
 end

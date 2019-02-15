@@ -3,12 +3,15 @@ namespace :notify do
   task :latest_assignment => :environment do
     a = Assignment.last
     emails = Semester.find_by(active: true).students.map {|s| s.email}
-    StudentMailer.with(emails: emails, assignment: a).new_assignment.deliver
+    emails += Admin.where(active: true).map {|a| a.email}
+    emails.each do |e|
+      StudentMailer.with(email: e, assignment: a).new_assignment.deliver
+    end
   end
 
   desc "Sends testemail about latest assignment to all students"
   task :test_latest_assignment => :environment do
     a = Assignment.last
-    StudentMailer.with(emails: ["staff+TEST@reactdecal.org"], assignment: a).new_assignment.deliver
+    StudentMailer.with(email: "staff+TEST@reactdecal.org", assignment: a).new_assignment.deliver
   end
 end
